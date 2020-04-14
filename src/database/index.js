@@ -2,8 +2,9 @@ import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
 
 import student from '../models/Student';
+import user from '../models/User';
 
-const models = [student];
+const models = [student, user];
 
 class Database {
   constructor() {
