@@ -12,6 +12,17 @@ class UserController {
       return res.status(400).json({ errors });
     }
   }
+
+  async index(req, res) {
+    try {
+      const users = await User.findAll();
+      return res.json(users);
+    } catch (e) {
+      console.error(e);
+      const errors = ['Erro desconhecido, contate o administrador do sistema'];
+      return res.status(400).json({ errors });
+    }
+  }
 }
 
 export default new UserController();
