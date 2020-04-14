@@ -41,6 +41,32 @@ class UserController {
       return res.status(400).json({ errors });
     }
   }
+
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+      const { name, email, password } = req.body;
+
+      if (!id) {
+        return res.status(400).json({ errors: ['ID do usuário não identificado'] });
+      }
+
+      if (!Number.isInteger(Number(id))) {
+        return res.status(400).json({ errors: ['ID do usuário não identificado'] });
+      }
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        return res.status(400).json({ errors: ['Usuário não existe'] });
+      }
+      const updatedUser = await user.update({ name, email, password });
+      return res.json(updatedUser);
+    } catch (e) {
+      console.error(e);
+      const errors = e.errors.map((erro) => erro.message);
+      return res.status(400).json({ errors });
+    }
+  }
 }
 
 export default new UserController();
