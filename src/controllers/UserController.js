@@ -23,6 +23,24 @@ class UserController {
       return res.status(400).json({ errors });
     }
   }
+
+  async show(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ errors: ['ID do usuário não identificado'] });
+      }
+      const user = await User.findByPk(id);
+      if (!user) {
+        return res.status(400).json({ errors: ['Usuário não existe'] });
+      }
+      return res.json(user);
+    } catch (e) {
+      console.error(e);
+      const errors = ['Erro desconhecido, contate o administrador do sistema'];
+      return res.status(400).json({ errors });
+    }
+  }
 }
 
 export default new UserController();
