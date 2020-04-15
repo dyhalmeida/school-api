@@ -15,7 +15,7 @@ class UserController {
 
   async index(req, res) {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({ attributes: ['id', 'name', 'email'] });
       return res.json(users);
     } catch (e) {
       console.error(e);
@@ -30,7 +30,7 @@ class UserController {
       if (!id) {
         return res.status(400).json({ errors: ['ID do usuário não identificado'] });
       }
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(id, { attributes: ['id', 'name', 'email'] });
       if (!user) {
         return res.status(400).json({ errors: ['Usuário não existe'] });
       }
@@ -44,23 +44,16 @@ class UserController {
 
   async update(req, res) {
     try {
-      const { id } = req.params;
+      const { userId } = req;
       const { name, email, password } = req.body;
 
-      if (!id) {
-        return res.status(400).json({ errors: ['ID do usuário não identificado'] });
-      }
-
-      if (!Number.isInteger(Number(id))) {
-        return res.status(400).json({ errors: ['ID do usuário não identificado'] });
-      }
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(userId);
 
       if (!user) {
         return res.status(400).json({ errors: ['Usuário não existe'] });
       }
-      const updatedUser = await user.update({ name, email, password });
-      return res.json(updatedUser);
+      await user.update({ name, email, password });
+      return res.json({ id: userId, name, email });
     } catch (e) {
       console.error(e);
       const errors = e.errors.map((erro) => erro.message);
@@ -70,17 +63,8 @@ class UserController {
 
   async delete(req, res) {
     try {
-      const { id } = req.params;
-
-      if (!id) {
-        return res.status(400).json({ errors: ['ID do usuário não identificado'] });
-      }
-
-      if (!Number.isInteger(Number(id))) {
-        return res.status(400).json({ errors: ['ID do usuário não identificado'] });
-      }
-
-      const user = await User.findByPk(id);
+      const { userId } = req;
+      const user = await User.findByPk(userId, { attributes: ['id', 'name', 'email'] });
       if (!user) {
         return res.status(400).json({ errors: ['Usuário não existe'] });
       }
