@@ -3,8 +3,9 @@ import databaseConfig from '../config/database';
 
 import student from '../models/Student';
 import user from '../models/User';
+import file from '../models/File';
 
-const models = [student, user];
+const models = [student, user, file];
 
 class Database {
   constructor() {
@@ -17,7 +18,9 @@ class Database {
 
   postgres() {
     this.connection = new Sequelize(databaseConfig);
-    models.map((model) => model.init(this.connection));
+    models
+      .map((model) => model.init(this.connection))
+      .map((model) => model.associate && model.associate(this.connection.models));
   }
 }
 
