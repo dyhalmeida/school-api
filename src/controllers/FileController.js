@@ -10,10 +10,14 @@ class FileController {
       if (error) {
         return res.status(400).json({ errors: [error.code] });
       }
-      const { originalname, filename } = req.file;
-      const { student } = req.body;
-      const file = await File.create({ originalname, filename, student });
-      return res.json(file);
+      try {
+        const { originalname, filename } = req.file;
+        const { student } = req.body;
+        const file = await File.create({ originalname, filename, student });
+        return res.json(file);
+      } catch (e) {
+        return res.status(400).json({ errors: ['Aluno não existe'] });
+      }
     });
   }
 }
