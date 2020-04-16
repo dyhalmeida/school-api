@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import urlConfig from '../config/url';
 
 export default class File extends Model {
   static init(sequelize) {
@@ -21,6 +22,12 @@ export default class File extends Model {
           notEmpty: {
             msg: 'Nome do arquino não deve ser vázio',
           },
+        },
+      },
+      url: {
+        type: Sequelize.VIRTUAL,
+        get() {
+          return `${urlConfig.url}/images/${this.getDataValue('filename')}`;
         },
       },
     },

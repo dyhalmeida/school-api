@@ -1,9 +1,17 @@
 import Student from '../models/Student';
+import File from '../models/File';
 
 class StudentController {
   async index(req, res) {
     try {
-      const students = await Student.findAll();
+      const students = await Student.findAll({
+        attributes: ['id', 'name', 'email'],
+        order: [['id', 'DESC'], [File, 'id', 'DESC']],
+        include: {
+          model: File,
+          attributes: ['url', 'filename'],
+        },
+      });
       return res.json(students);
     } catch (e) {
       console.error(e);
@@ -17,7 +25,14 @@ class StudentController {
       if (!id) {
         return res.status(400).json({ errors: ['ID do estudante não identificado'] });
       }
-      const student = await Student.findByPk(id, { attributes: ['id', 'name', 'email'] });
+      const student = await Student.findByPk(id, {
+        attributes: ['id', 'name', 'email'],
+        order: [['id', 'DESC'], [File, 'id', 'DESC']],
+        include: {
+          model: File,
+          attributes: ['url', 'filename'],
+        },
+      });
       if (!student) {
         return res.status(400).json({ errors: ['Estudante não existe'] });
       }
