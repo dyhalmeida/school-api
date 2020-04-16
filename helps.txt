@@ -1,0 +1,17 @@
+Criar Migration Sequelize
+npx sequelize migration:create --name=students
+
+Executar Migrations Sequelize
+npx sequelize db:migrate
+
+Desfazendo última Migration Sequelize criada
+npx sequelize db:migrate:undo
+
+Desfazendo todas as Migration Sequelize
+npx sequelize db:migrate:undo:all
+
+Criar Seeds Sequelize
+npx sequelize seed:generate --name=users
+
+Executar Seeds Sequelize
+npx sequelize db:seed:all
