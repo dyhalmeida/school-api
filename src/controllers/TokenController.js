@@ -18,7 +18,7 @@ class TokenController {
       const token = jwt.sign({ id: user.id, email }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRESIN,
       });
-      return res.json({ token });
+      return res.json({ token, user: { id: user.id, name: user.name, email } });
     } catch (e) {
       console.error(e);
       return res.status(400).json({ errors: ['Erro desconhecido, contate o administrador do sistema'] });
