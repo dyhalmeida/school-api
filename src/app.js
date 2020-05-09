@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import './src/database';
+import './database';
 
 import express from 'express';
 import cors from 'cors';
@@ -24,11 +24,11 @@ const corsOptions = {
 
 import { resolve } from 'path';
 
-import homeRoutes from './src/routes/HomeRoutes';
-import userRoutes from './src/routes/UserRoutes';
-import tokenRoutes from './src/routes/TokenRoutes';
-import studentRoutes from './src/routes/StudentRoutes';
-import fileRoutes from './src/routes/FileRoutes';
+import homeRoutes from './routes/HomeRoutes';
+import userRoutes from './routes/UserRoutes';
+import tokenRoutes from './routes/TokenRoutes';
+import studentRoutes from './routes/StudentRoutes';
+import fileRoutes from './routes/FileRoutes';
 
 
 class App {
